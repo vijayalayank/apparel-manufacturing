@@ -56,7 +56,7 @@ export const processTimeStudy = (rawData, targetOutput = 80, rating = 75, allowa
     
     operations.push({
       id: Math.random().toString(36).substr(2, 9),
-      name: row["Column1"],
+      name: rawName,
       sam: parseFloat(sam.toFixed(4)),
       capacity: Math.floor(capacity),
       nt: parseFloat(nt.toFixed(2)),
