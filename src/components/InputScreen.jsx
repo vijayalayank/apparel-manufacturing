@@ -86,7 +86,7 @@ export default function InputScreen({ onDataLoaded }) {
             const workbook = XLSX.read(data, { type: 'array' });
             const sheetsData = {};
             workbook.SheetNames.forEach(sheetName => {
-               sheetsData[sheetName] = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { defval: "" });
+               sheetsData[sheetName] = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1, defval: "" });
             });
             setFileData(sheetsData);
             setInputType('xls'); // Auto-switch view
@@ -243,8 +243,20 @@ export default function InputScreen({ onDataLoaded }) {
               <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>or click anywhere to browse local files</p>
               
               {fileData && !error && (
-                <div style={{ marginTop: '24px', color: 'var(--status-green)', display: 'flex', alignItems: 'center', gap: '8px', background: 'var(--status-green-bg)', padding: '12px 16px', borderRadius: '8px' }}>
+                <div style={{ marginTop: '24px', color: 'var(--status-green)', display: 'flex', alignItems: 'center', gap: '8px', background: 'var(--status-green-bg)', padding: '12px 16px', borderRadius: '8px', width: '100%' }}>
                   <CheckCircle size={16} /> <span style={{ fontSize: '0.875rem' }}>File parsed naturally: {Object.keys(fileData).length} Sheet(s) ready.</span>
+                </div>
+              )}
+
+              {inputType === 'xls' && !fileData && (
+                <div style={{ marginTop: '24px', textAlign: 'left', background: 'rgba(255, 255, 255, 0.05)', padding: '16px', borderRadius: '8px', border: '1px solid var(--accent)', width: '100%' }}>
+                  <h4 style={{ color: 'var(--accent)', marginBottom: '8px', fontSize: '0.875rem' }}>Excel Format Conditions</h4>
+                  <ul style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', paddingLeft: '16px', margin: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    <li><strong>Row 1:</strong> Ignored (Used for Headers)</li>
+                    <li><strong>Column A:</strong> Operation Names</li>
+                    <li><strong>Columns B-P:</strong> Numeric Cycle Times</li>
+                    <li><strong>Sheets:</strong> Place each Line on a different Tab</li>
+                  </ul>
                 </div>
               )}
             </div>

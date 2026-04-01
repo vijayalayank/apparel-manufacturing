@@ -1,8 +1,50 @@
 import React from 'react';
-import { AlertCircle, CheckCircle, Clock } from 'lucide-react';
+import { AlertCircle, CheckCircle, Clock, Download } from 'lucide-react';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 export default function OperationDashboard({ data }) {
   if (!data || !data.operations) return null;
+
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+    const currentDate = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString();
+    
+    // Title
+    doc.setFontSize(18);
+    doc.text('Live Operation Analysis Report', 14, 22);
+    
+    // Subtitle (Date)
+    doc.setFontSize(11);
+    doc.setTextColor(100);
+    doc.text(`Generated on: ${currentDate}`, 14, 30);
+    
+    // Table Structure
+    const tableColumn = ["Operation Name", "SAM (Mins)", "Capacity (pcs/hr)", "Normal Time (NT)", "Status"];
+    const tableRows = [];
+
+    data.operations.forEach(op => {
+      const opData = [
+        op.name,
+        op.sam.toFixed(3),
+        op.capacity,
+        op.nt.toFixed(2),
+        op.status.charAt(0).toUpperCase() + op.status.slice(1)
+      ];
+      tableRows.push(opData);
+    });
+
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+      startY: 35,
+      theme: 'grid',
+      headStyles: { fillColor: [59, 130, 246] }
+    });
+
+    const fileDate = new Date().toISOString().split('T')[0];
+    doc.save(`Operation_Analysis_${fileDate}.pdf`);
+  };
 
   const getStatusBadge = (status) => {
     switch(status) {
@@ -16,7 +58,16 @@ export default function OperationDashboard({ data }) {
   return (
     <div className="glass-panel" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
       <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h2 style={{ fontSize: '1.25rem' }}>Live Operation Analysis</h2>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <h2 style={{ fontSize: '1.25rem' }}>Live Operation Analysis</h2>
+          <button 
+            onClick={handleDownloadPDF}
+            style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'var(--accent)', color: '#fff', border: 'none', padding: '6px 12px', borderRadius: '6px', fontSize: '0.875rem', cursor: 'pointer', fontWeight: 'bold' }}
+            title="Download PDF"
+          >
+            <Download size={16} /> Export PDF
+          </button>
+        </div>
         
         <div style={{ display: 'flex', gap: '16px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.875rem' }}>

@@ -11,11 +11,11 @@ import OperationDeepDive from './components/OperationDeepDive';
 
 function App() {
   const [activeTab, setActiveTab] = useState('input');
-  
+
   // Holds the processed payload returned from utils/calculations.js
   const [lineData, setLineData] = useState(null);
   const [activeLineName, setActiveLineName] = useState("No Line Selected");
-  
+
   const handleDataLoaded = (processedData, lineName) => {
     setLineData(processedData);
     setActiveLineName(lineName);
@@ -34,37 +34,37 @@ function App() {
             <Activity color="#fff" size={24} />
           </div>
           <div>
-            <h2 style={{ fontSize: '1.25rem', color: '#fff' }}>AeroSew</h2>
-            <p style={{ fontSize: '0.75rem', color: 'var(--accent)', fontWeight: '600' }}>Decision Support</p>
+            <h2 style={{ fontSize: '1.25rem', color: '#fff' }}>Sewing</h2>
+            <p style={{ fontSize: '0.75rem', color: 'var(--accent)', fontWeight: '600' }}>Automation Decision Support</p>
           </div>
         </div>
-        
+
         <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: 1 }}>
-          <NavButton icon={<Upload size={20}/>} label="Data Input" active={activeTab === 'input'} onClick={() => setActiveTab('input')} />
-          <NavButton icon={<Activity size={20}/>} label="Operation Analysis" active={activeTab === 'dashboard'} onClick={() => setActiveTab('dashboard')} disabled={!lineData} />
-          <NavButton icon={<Target size={20}/>} label="Operation Deep Dive" active={activeTab === 'deepdive'} onClick={() => setActiveTab('deepdive')} disabled={!lineData} />
-          <NavButton icon={<BarChart2 size={20}/>} label="Visual Charts" active={activeTab === 'charts'} onClick={() => setActiveTab('charts')} disabled={!lineData} />
-          <NavButton icon={<Users size={20}/>} label="Line Balancing" active={activeTab === 'balancing'} onClick={() => setActiveTab('balancing')} disabled={!lineData} />
-          <NavButton icon={<Lightbulb size={20}/>} label="Recommendations" active={activeTab === 'recommendations'} onClick={() => setActiveTab('recommendations')} disabled={!lineData} />
+          <NavButton icon={<Upload size={20} />} label="Data Input" active={activeTab === 'input'} onClick={() => setActiveTab('input')} />
+          <NavButton icon={<Activity size={20} />} label="Operation Analysis" active={activeTab === 'dashboard'} onClick={() => setActiveTab('dashboard')} disabled={!lineData} />
+          <NavButton icon={<Target size={20} />} label="Operation Deep Dive" active={activeTab === 'deepdive'} onClick={() => setActiveTab('deepdive')} disabled={!lineData} />
+          <NavButton icon={<BarChart2 size={20} />} label="Visual Charts" active={activeTab === 'charts'} onClick={() => setActiveTab('charts')} disabled={!lineData} />
+          <NavButton icon={<Users size={20} />} label="Line Balancing" active={activeTab === 'balancing'} onClick={() => setActiveTab('balancing')} disabled={!lineData} />
+          <NavButton icon={<Lightbulb size={20} />} label="Recommendations" active={activeTab === 'recommendations'} onClick={() => setActiveTab('recommendations')} disabled={!lineData} />
         </div>
-        
+
         {/* Footer info in sidebar */}
         <div style={{ padding: '16px', borderTop: '1px solid var(--glass-border)', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
           System is {lineData ? 'Online' : 'Awaiting Data'}
         </div>
       </nav>
-      
+
       {/* Main Content Area */}
       <main className="main-content">
         <header className="glass-panel fade-in" style={{ padding: '20px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <h1 style={{ fontSize: '1.5rem', fontWeight: '600', color: '#fff' }}>
-               {activeTab === 'input' && "Data Initialization"}
-               {activeTab === 'dashboard' && "Operation Live Analysis"}
-               {activeTab === 'deepdive' && "Specific Operation Analytics"}
-               {activeTab === 'charts' && "Production Visualizations"}
-               {activeTab === 'balancing' && "Operator Line Balancing"}
-               {activeTab === 'recommendations' && "AI Recommendations"}
+              {activeTab === 'input' && "Data Initialization"}
+              {activeTab === 'dashboard' && "Operation Live Analysis"}
+              {activeTab === 'deepdive' && "Specific Operation Analytics"}
+              {activeTab === 'charts' && "Production Visualizations"}
+              {activeTab === 'balancing' && "Operator Line Balancing"}
+              {activeTab === 'recommendations' && "AI Recommendations"}
             </h1>
             <p style={{ fontSize: '0.875rem', marginTop: '4px' }}>
               {activeLineName}
@@ -72,30 +72,30 @@ function App() {
           </div>
 
           {lineData && (
-             <div style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
-               <div style={{ textAlign: 'right' }}>
-                 <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Overall Efficiency</p>
-                 <h2 style={{ color: 'var(--status-green)', fontSize: '1.75rem' }}>{lineData.efficiency}%</h2>
-               </div>
-               <div style={{ width: '1px', height: '40px', background: 'var(--glass-border)' }}></div>
-               <div style={{ textAlign: 'left' }}>
-                 <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Target Output</p>
-                 <h2 style={{ fontSize: '1.75rem', color: '#fff' }}>{lineData.targetOutput}/hr</h2>
-               </div>
-             </div>
+            <div style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
+              <div style={{ textAlign: 'right' }}>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Overall Efficiency</p>
+                <h2 style={{ color: 'var(--status-green)', fontSize: '1.75rem' }}>{lineData.efficiency}%</h2>
+              </div>
+              <div style={{ width: '1px', height: '40px', background: 'var(--glass-border)' }}></div>
+              <div style={{ textAlign: 'left' }}>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Target Output</p>
+                <h2 style={{ fontSize: '1.75rem', color: '#fff' }}>{lineData.targetOutput}/hr</h2>
+              </div>
+            </div>
           )}
         </header>
 
         <section className="fade-in" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-           <div style={{ display: activeTab === 'input' ? 'flex' : 'none', flex: 1, flexDirection: 'column', height: '100%' }}>
-             <InputScreen onDataLoaded={handleDataLoaded} />
-           </div>
-           
-           {activeTab === 'dashboard' && <OperationDashboard data={lineData} />}
-           {activeTab === 'deepdive' && <OperationDeepDive data={lineData} />}
-           {activeTab === 'charts' && <VisualCharts data={lineData} />}
-           {activeTab === 'balancing' && <LineBalancing data={lineData} />}
-           {activeTab === 'recommendations' && <Recommendations data={lineData} />}
+          <div style={{ display: activeTab === 'input' ? 'flex' : 'none', flex: 1, flexDirection: 'column', height: '100%' }}>
+            <InputScreen onDataLoaded={handleDataLoaded} />
+          </div>
+
+          {activeTab === 'dashboard' && <OperationDashboard data={lineData} />}
+          {activeTab === 'deepdive' && <OperationDeepDive data={lineData} />}
+          {activeTab === 'charts' && <VisualCharts data={lineData} />}
+          {activeTab === 'balancing' && <LineBalancing data={lineData} />}
+          {activeTab === 'recommendations' && <Recommendations data={lineData} />}
         </section>
       </main>
     </div>
@@ -104,7 +104,7 @@ function App() {
 
 function NavButton({ icon, label, active, onClick, disabled }) {
   return (
-    <button 
+    <button
       onClick={disabled ? null : onClick}
       style={{
         display: 'flex',
@@ -123,13 +123,13 @@ function NavButton({ icon, label, active, onClick, disabled }) {
         fontWeight: active ? '600' : '500',
         textAlign: 'left'
       }}
-      onMouseOver={(e) => { 
+      onMouseOver={(e) => {
         if (!active && !disabled) {
           e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
           e.currentTarget.style.color = '#fff';
         }
       }}
-      onMouseOut={(e) => { 
+      onMouseOut={(e) => {
         if (!active && !disabled) {
           e.currentTarget.style.background = 'transparent';
           e.currentTarget.style.color = 'var(--text-secondary)';

@@ -5,13 +5,16 @@ export default function VisualCharts({ data }) {
   if (!data || !data.operations) return null;
 
   // Enhance data for chart rendering
-  const chartData = data.operations.map(op => ({
-    name: op.name,
-    shortName: op.name.length > 20 ? op.name.substring(0, 20) + '...' : op.name,
-    sam: op.sam,
-    capacity: op.capacity,
-    status: op.status
-  }));
+  const chartData = data.operations.map(op => {
+    const safeName = op.name ? String(op.name) : 'Unnamed Operation';
+    return {
+      name: safeName,
+      shortName: safeName.length > 20 ? safeName.substring(0, 20) + '...' : safeName,
+      sam: op.sam || 0,
+      capacity: op.capacity || 0,
+      status: op.status
+    };
+  });
 
   const getColor = (status) => {
     switch(status) {

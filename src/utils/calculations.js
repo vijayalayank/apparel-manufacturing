@@ -3,22 +3,28 @@
 export const processTimeStudy = (rawData, targetOutput = 80, rating = 75, allowance = 15) => {
   const operations = [];
   
-  rawData.forEach(row => {
-    // Skip headers and footers
-    if (!row["Column1"] || row["Column1"] === "Operation name" || row["Cycle time or no.of pieces"] === "(Numbers are in seconds)") {
-      return;
+  rawData.forEach((row, index) => {
+    let rawName;
+    let rawTimes = [];
+    
+    // Check if robust 2D array matrix from Excel ( {header: 1} )
+    if (Array.isArray(row)) {
+        if (index === 0) return; // Skip Header Row
+        rawName = row[0];
+        rawTimes = row.slice(1, 16); // Grab up to 15 columns of times
+    } 
+    // Fallback: Legacy JSON Object Processing
+    else {
+        rawName = row["Column1"];
+        const keys = ["Cycle time or no.of pieces", "Column3", "Column4", "Column5", "Column6", "Column7", "Column8", "Column9", "Column10", "Column11", "Column12", "Column13", "Column14", "Column15", "Column16"];
+        keys.forEach(key => { if (row[key] !== undefined && row[key] !== "") rawTimes.push(row[key]); });
     }
     
-    // Extract the 15 cycle times
-    const cycleTimes = [];
-    const keys = ["Cycle time or no.of pieces", "Column3", "Column4", "Column5", "Column6", "Column7", "Column8", "Column9", "Column10", "Column11", "Column12", "Column13", "Column14", "Column15", "Column16"];
+    // Skip empty lines or legacy headers
+    if (!rawName || rawName === "Operation name" || rawName.includes("Numbers are in seconds")) return;
     
-    keys.forEach(key => {
-      if (typeof row[key] === 'number') {
-        cycleTimes.push(row[key]);
-      }
-    });
-    
+    // Extract actual numeric cycle times
+    const cycleTimes = rawTimes.map(t => parseFloat(t)).filter(n => !isNaN(n));
     if (cycleTimes.length === 0) return;
     
     // Core Calculations based on provided formulas
